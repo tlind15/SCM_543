@@ -16,4 +16,10 @@ public class RepoFile extends File {
         File file_dest = FileUtils.getFile(dest + "\\" + this.getName()); //creates file path for new destination from String
         FileUtils.copyDirectory(this, file_dest);
     }
+    
+    public void createLeafFolder (File file) throws IOException {
+        final String TEMP_DIR = "scm_temp";
+        File leafDir = FileUtils.getFile(file.getParent() + "\\" + TEMP_DIR);
+        FileUtils.moveFileToDirectory(file, leafDir, true);
+    }
 }
