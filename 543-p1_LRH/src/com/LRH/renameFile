@@ -6,9 +6,9 @@ String newFileCodeName()
 {
     long fileSize = file.length();   //get the size of file
     String fileCurrentName = file.getName();   //get the original name of file to be renamed
-    String extension = substring(fileCurrentName.lastIndexOf(".");   //get the file extension
+    String extension = substring(fileCurrentName.lastIndexOf("."));   //get the file extension
     int currentCharacter = 0 checkSum = 0;   //set a starting point for computing checksum
-    while (fileCurrentName.charAt(currentCharacter) != 46)   //compute the checksum
+    while (currentCharacter != fileCurrentName.lastIndexOf(".") && fileCurrentName.charAt(currentCharacter) != 46)   //compute the checksum
         {
             if currentCharacter % 4 == 2;
             {
