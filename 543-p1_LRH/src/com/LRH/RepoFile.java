@@ -12,9 +12,10 @@ public class RepoFile extends File {
         super(path); //is the default constructor for the java 'File' class
     }
 
-    private void copyFolder(String dest) throws IOException {
+    private File copyFolder(String dest) throws IOException {
         File file_dest = FileUtils.getFile(dest + "\\" + this.getName()); //creates file path for new destination from String
         FileUtils.copyDirectory(this, file_dest);
+        return file_dest;
     }
     
     private void createLeafFolder (File file) throws IOException {
@@ -24,6 +25,10 @@ public class RepoFile extends File {
 
         File leafDir = FileUtils.getFile(tempDir.getParent() + "\\" + file.getName());
         FileUtils.moveDirectory(tempDir, leafDir);
+
+        //will eventually call create code name
+
+        //will eventually call write to manifest
     }
     
     public void createRepo(String dest) throws IOException {
