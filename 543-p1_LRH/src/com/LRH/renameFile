@@ -4,7 +4,6 @@ import java.io.*;
 
 String newFileCodeName()
 {
-    String getAbsolutePath();  //get the path of input file
     long fileSize = file.length();   //get the size of file
     String fileCurrentName = file.getName();   //get the original name of file to be renamed
     String extension = substring(fileOriginalName.lastIndexOf(".");   //get the file extension
