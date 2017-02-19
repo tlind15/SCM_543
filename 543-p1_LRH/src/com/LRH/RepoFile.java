@@ -4,10 +4,11 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 
 public class RepoFile extends File {
-    
+
     public RepoFile (String path) {
         super(path); //is the default constructor for the java 'File' class
     }
@@ -17,7 +18,7 @@ public class RepoFile extends File {
         FileUtils.copyDirectory(this, file_dest);
         return file_dest;
     }
-    
+
     private void createLeafFolder (File file) throws IOException {
         final String TEMP_DIR = "scm_temp";
         File tempDir = FileUtils.getFile(file.getParent() + "\\" + TEMP_DIR);
@@ -30,7 +31,7 @@ public class RepoFile extends File {
 
         //will eventually call write to manifest
     }
-    
+
     public void createRepo(String dest) throws IOException {
         File dest_file = this.copyFolder(dest);
         List<File> leafFiles =  (List<File>) FileUtils.listFiles(dest_file, null, true);
