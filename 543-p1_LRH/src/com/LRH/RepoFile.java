@@ -25,4 +25,11 @@ public class RepoFile extends File {
         File leafDir = FileUtils.getFile(tempDir.getParent() + "\\" + file.getName());
         FileUtils.moveDirectory(tempDir, leafDir);
     }
+    
+    public void createRepo(String dest) throws IOException {
+        File dest_file = this.copyFolder(dest);
+        List<File> leafFiles =  (List<File>) FileUtils.listFiles(dest_file, null, true);
+        for (File f : leafFiles) 
+            createLeafFolder(f);
+    }
 }
