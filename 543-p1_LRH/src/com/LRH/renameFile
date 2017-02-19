@@ -12,17 +12,17 @@ String newFileCodeName()
         {
             if currentCharacter % 4 == 2;
             {
-                fileOriginalName.charAt(currentCharacter) = fileOriginalName.charAt(currentCharacter) * 3;
+                fileCurrentName.charAt(currentCharacter) = fileCurrentName.charAt(currentCharacter) * 3;
             }
             if currentCharacter % 4 == 3;
             {
-                fileOriginalName.charAt(currentCharacter) = fileOriginalName.charAt(currentCharacter) * 11;
+                fileCurrentName.charAt(currentCharacter) = fileCurrentName.charAt(currentCharacter) * 11;
             }
             if currentCharacter % 4 == 0;
             {
-                fileOriginalName.charAt(currentCharacter) = fileOriginalName.charAt(currentCharacter) * 17;
+                fileCurrentName.charAt(currentCharacter) = fileCurrentName.charAt(currentCharacter) * 17;
             }
-            checkSum = fileOriginalName.charAt(currentCharacter) + checkSum;
+            checkSum = fileCurrentName.charAt(currentCharacter) + checkSum;
             currentCharacter++;
         }
     fileCurrentName.renameTo(checkSum + "." + fileSize + extension);
