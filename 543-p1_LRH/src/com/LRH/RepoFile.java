@@ -19,7 +19,10 @@ public class RepoFile extends File {
     
     public void createLeafFolder (File file) throws IOException {
         final String TEMP_DIR = "scm_temp";
-        File leafDir = FileUtils.getFile(file.getParent() + "\\" + TEMP_DIR);
-        FileUtils.moveFileToDirectory(file, leafDir, true);
+        File tempDir = FileUtils.getFile(file.getParent() + "\\" + TEMP_DIR);
+        FileUtils.moveFileToDirectory(file, tempDir, true);
+
+        File leafDir = FileUtils.getFile(tempDir.getParent() + "\\" + file.getName());
+        FileUtils.moveDirectory(tempDir, leafDir);
     }
 }
