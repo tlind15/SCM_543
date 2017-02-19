@@ -1,0 +1,30 @@
+package com.LRH;
+
+import java.io.*;
+
+String newFileCodeName()
+{
+    String getAbsolutePath();  //get the path of input file
+    long fileSize = file.length();   //get the size of file
+    String fileCurrentName = file.getName();   //get the original name of file to be renamed
+    String extension = substring(fileOriginalName.lastIndexOf(".");   //get the file extension
+    int currentCharacter = 0 checkSum = 0;   //set a starting point for computing checksum
+    while (fileCurrentName.charAt(currentCharacter) != 46)   //compute the checksum
+        {
+            if currentCharacter % 4 == 2;
+            {
+                fileOriginalName.charAt(currentCharacter) = fileOriginalName.charAt(currentCharacter) * 3;
+            }
+            if currentCharacter % 4 == 3;
+            {
+                fileOriginalName.charAt(currentCharacter) = fileOriginalName.charAt(currentCharacter) * 11;
+            }
+            if currentCharacter % 4 == 0;
+            {
+                fileOriginalName.charAt(currentCharacter) = fileOriginalName.charAt(currentCharacter) * 17;
+            }
+            checkSum = fileOriginalName.charAt(currentCharacter) + checkSum;
+            currentCharacter++;
+        }
+    fileCurrentName.renameTo(checkSum + "." + fileSize + extension);
+}
