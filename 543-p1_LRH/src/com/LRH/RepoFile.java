@@ -26,10 +26,16 @@ public class RepoFile extends File {
         FileUtils.moveDirectory(tempDir, leafDir);
     }
     
-    public void createRepo(String dest) throws IOException {
+public void createRepo(String dest) throws IOException {
         File dest_file = this.copyFolder(dest);
         List<File> leafFiles =  (List<File>) FileUtils.listFiles(dest_file, null, true);
-        for (File f : leafFiles) 
+        for (File f : leafFiles)
             createLeafFolder(f);
+
+        File activity = FileUtils.getFile(dest + "\\" + "activity");
+        FileUtils.forceMkdir(activity);
+
+        File manifest = FileUtils.getFile(activity.getAbsolutePath() + "\\" + "manifest.txt");
+        manifest.createNewFile();
     }
 }
