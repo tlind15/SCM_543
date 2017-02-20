@@ -26,5 +26,6 @@ String newFileCodeName()
         {
             checkSum = tempASCII * 17 + checkSum;
         }
-    }fileCurrentName.renameTo(checkSum + "." + fileSize + extension);
+    }
+    fileCurrentName.renameTo(checkSum + "." + fileSize + extension);
 }
