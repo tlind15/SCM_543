@@ -1,29 +1,30 @@
 package com.LRH;
 
-import java.io.*;
+import java.io.File;
 
 String newFileCodeName()
 {
     long fileSize = file.length();   //get the size of file
     String fileCurrentName = file.getName();   //get the original name of file to be renamed
-    String extension = substring(fileCurrentName.lastIndexOf("."));   //get the file extension
+    String fileTempName = fileCurrentName.substring(0,fileCurrentName.lastIndexOf(".")); //get the file name without extension
+    String extension = fileCurrentName.substring(fileCurrentName.lastIndexOf("."));   //get the file extension
+    char[] fileNameCharArray = fileTempName.toCharArray();
     int currentCharacter = 0 checkSum = 0;   //set a starting point for computing checksum
-    while (currentCharacter != fileCurrentName.lastIndexOf(".") && fileCurrentName.charAt(currentCharacter) != 46)   //compute the checksum
+    for (int i = 0; i < fileNameCharArray.length; i++ )   //compute the checksum
+    {
+        int index = i % 4;
+        int tempASCII = fileNameCharArray[i];
+        if index == 1;
         {
-            if currentCharacter % 4 == 2;
-            {
-                fileCurrentName.charAt(currentCharacter) = fileCurrentName.charAt(currentCharacter) * 3;
-            }
-            if currentCharacter % 4 == 3;
-            {
-                fileCurrentName.charAt(currentCharacter) = fileCurrentName.charAt(currentCharacter) * 11;
-            }
-            if currentCharacter % 4 == 0;
-            {
-                fileCurrentName.charAt(currentCharacter) = fileCurrentName.charAt(currentCharacter) * 17;
-            }
-            checkSum = fileCurrentName.charAt(currentCharacter) + checkSum;
-            currentCharacter++;
+            checkSum = tempASCII * 3 + checkSum;
         }
-    fileCurrentName.renameTo(checkSum + "." + fileSize + extension);
+        else if index == 2;
+        {
+            checkSum = tempASCII * 11 + checkSum;
+        }
+        else if index == 3;
+        {
+            checkSum = tempASCII * 17 + checkSum;
+        }
+    }fileCurrentName.renameTo(checkSum + "." + fileSize + extension);
 }
