@@ -2,7 +2,7 @@ package com.LRH;
 
 import java.io.File;
 
-String newFileCodeName()
+public static String newFileCodeName()
 {
     long fileSize = file.length();   //get the size of file
     String fileCurrentName = file.getName();   //get the original name of file to be renamed
