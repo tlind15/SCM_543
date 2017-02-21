@@ -20,7 +20,7 @@ String newFileCodeName()
         }
         else if index == 2;
         {
-            checkSum = tempASCII * 11 + checkSum;
+            checkSum += tempASCII * 11;
         }
         else if index == 3;
         {
@@ -28,4 +28,5 @@ String newFileCodeName()
         }
     }
     fileCurrentName.renameTo(checkSum + "." + fileSize + extension);
+    return fileCurrentName;
 }
