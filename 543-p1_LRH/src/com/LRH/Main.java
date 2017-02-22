@@ -1,15 +1,28 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.Charset;
 
-class vrsn_ctrl_gui
+class Main extends TemporaryClass //will update to impl. class
 {
+	private JTextField username = new JTextField(30);
+	private JTextField dirCpy = new JTextField(30);
+	private JTextField repoLoc = new JTextField(10);
+	private String manifestoFile = "../activity_logs.txt";
+	private TemporaryClass m_tc = new TemporaryClass();
+
 
 	public void createMenuBar(JFrame frame)
 	{
 		 JMenuBar menu_bar = new JMenuBar();
 		 JMenu view_menu = new JMenu("View");
 		 JMenuItem activity_logs = new JMenuItem("Activity Logs");
+		 activity_logs.addActionListener(new openLogs());
 		 view_menu.add(activity_logs);
 		 menu_bar.add(view_menu);
 		 frame.add(menu_bar);
@@ -25,22 +38,22 @@ class vrsn_ctrl_gui
 		gbc.insets = spac;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		panel.setLayout(layout);
-		JLabel repoLabel = new JLabel("Repo: CECS543/trunk");
+		JLabel usernameLabel = new JLabel("Username: ");
 		gbc.gridx = 0; gbc.gridy = 0;
 		gbc.gridwidth = 2;
-		panel.add(repoLabel, gbc);
+		panel.add(usernameLabel, gbc);
+		gbc.gridx = 1; gbc.gridy = 0;
+		panel.add(username, gbc);
 		JLabel dirCpyLabel = new JLabel("Directory to Copy: ");
 		gbc.gridx = 0; gbc.gridy = 1;
 		gbc.gridwidth = 1;
 		panel.add(dirCpyLabel, gbc);
-		JTextField dirCpy = new JTextField(30);
 		gbc.gridx = 1; gbc.gridy = 1;
 		panel.add(dirCpy, gbc);
 		JLabel repoLocLabel = new JLabel("Repo Location: ");
 		gbc.gridx = 0; gbc.gridy = 2;
 		gbc.gridwidth = 1;
 		panel.add(repoLocLabel, gbc);
-		JTextField repoLoc = new JTextField(10);
 		gbc.gridx = 1; gbc.gridy = 2;
 		panel.add(repoLoc, gbc);
 		JButton createButton = new JButton("Create");
@@ -51,10 +64,32 @@ class vrsn_ctrl_gui
 	class createRepo implements ActionListener{
 		public void actionPerformed(ActionEvent e)
 		{
-
+			String ui_username = username.getText();
+			String ui_dirCpy = dirCpy.getText();
+			String ui_repoLoc = repoLoc.getText();
+			//call manifesto edit
+			m_tc.writeToManifesto_RepoCreate(ui_repoLoc, ui_dirCpy, ui_username, manifestoFile);
+			//call create repo
 		}
 	}
-	vrsn_ctrl_gui()
+	class openLogs implements ActionListener {
+  		public void actionPerformed(ActionEvent e) {
+			File file = new File(manifestoFile);
+			try(FileReader fileReader = new FileReader(file))
+			{
+				BufferedReader bufferedReader = new BufferedReader(fileReader);
+				StringBuffer stringBuffer = new StringBuffer();
+				String line;
+				while ((line = bufferedReader.readLine()) != null) {
+					stringBuffer.append(line);
+					stringBuffer.append("\n");
+				}
+			fileReader.close();
+			JOptionPane.showMessageDialog(null, stringBuffer.toString(), "Activity Logs", JOptionPane.PLAIN_MESSAGE);
+			}catch (IOException f) {}
+		}
+	}
+	Main()
 	{
 		final JFrame frame = new JFrame("Version Control");
 		JPanel panel = new JPanel();
@@ -69,6 +104,6 @@ class vrsn_ctrl_gui
 
 	public static void main(String[] args)
 	{
-		new vrsn_ctrl_gui();
+		new Main();
 	}
 }
