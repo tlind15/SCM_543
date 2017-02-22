@@ -6,7 +6,7 @@ We are **Team LRH** and this project is a source code management system made fro
 
 **Authors**
 - Thomas Lindblom (tlindblomjr@gmail.com)
-- Jocelyn Ramirez()
+- Jocelyn Ramirez(jsyramirez@gmail.com)
 - Yushen Huang(maple.yushen@gmail.com)
 
 ###Project Progress
