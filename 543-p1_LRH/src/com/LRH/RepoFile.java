@@ -2,6 +2,8 @@ package com.LRH;
 
 import org.apache.commons.io.FileUtils;
 import java.io.File;
+import java.io.InputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -18,28 +20,37 @@ public class RepoFile extends File {
         return file_dest;
     }
 
-    public static String newFileCodeName(File file) {
+    public static String newFileCodeName(File file) throws IOException{
         long fileSize = file.length();   //get the size of file
         String fileCurrentName = file.getName();   //get the original name of file to be renamed
-        String fileTempName = fileCurrentName.substring(0,fileCurrentName.lastIndexOf(".")); //get the file name without extension
-        String extension = fileCurrentName.substring(fileCurrentName.lastIndexOf("."));   //get the file extension
-        char[] fileNameCharArray = fileTempName.toCharArray();
-        int currentCharacter = 0, checkSum = 0;   //set a starting point for computing checksum
-        for (int i = 0; i < fileNameCharArray.length; i++ ) {  //compute the checksum
-            int index = i % 4;
-            int tempASCII = fileNameCharArray[i];
-            if (index == 1) {
-                checkSum = tempASCII * 3 + checkSum;
-                
-            } else if (index == 2) {
-                checkSum += tempASCII * 11;
-                
-            } else if (index == 3) {
-                checkSum = tempASCII * 17 + checkSum;
-            }
-        }
-        fileCurrentName = checkSum + "." + fileSize + extension;
+        String extension = fileCurrentName.substring(fileCurrentName.lastIndexOf("."));   //get the file name extension
+        InputStream fileIS = new FileInputStream(file);  //get file content
+        int checkSum = checkSum(fileIS);  // Call function for checkSum
+        fileIS.close();  // close the input stream
+        fileCurrentName = checkSum + "." + fileSize + extension;   //rename file
         return fileCurrentName;
+    }
+
+    public static int checkSum(InputStream fileIS) throws IOException{
+        int checkSum = 0, i = 0, tempASCII;   //set a starting point for computing checksum
+        while ( (tempASCII = fileIS.read()) != -1)   //compute the checksum for the whole file
+        {
+            int index = i % 4;
+            switch (index) {
+                case 1:
+                    tempASCII *= 3;
+                    break;
+                case 2:
+                    tempASCII *= 11;
+                    break;
+                case 3:
+                    tempASCII *= 17;
+                    break;
+            }
+            checkSum += tempASCII;
+            i++;
+        }
+        return checkSum;
     }
 
     private void renameLeafFileArtifact(File leafDirectoryFolder) throws IOException {
