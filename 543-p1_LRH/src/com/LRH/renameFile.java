@@ -19,8 +19,6 @@ public static int checkSum(InputStream fileIS) throws IOException{
     {
         int index = i % 4;
         switch (index) {
-            case 0:
-                break;
             case 1:
                 tempASCII *= 3;
                 break;
