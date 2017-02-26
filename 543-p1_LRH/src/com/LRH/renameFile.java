@@ -9,8 +9,7 @@ public static String newFileCodeName(File file) throws IOException{
     InputStream fileIS = new FileInputStream(file);  //get file content
     int checkSum = checkSum(fileIS);  // Call function for checkSum
     fileIS.close();  // close the input stream
-    fileCurrentName = checkSum + "." + fileSize + extension;   //rename file
-    return fileCurrentName;
+    return checkSum + "." + fileSize + extension;   //rename file
 }
 
 public static int checkSum(InputStream fileIS) throws IOException{
