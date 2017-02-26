@@ -9,14 +9,12 @@ public static String newFileCodeName(File file) throws IOException{
     InputStream fileIS = new FileInputStream(file);  //get file content
     int checkSum = checkSum(fileIS);  // Call function for checkSum
     fileIS.close();  // close the input stream
-    fileCurrentName = checkSum + "." + fileSize + extension;
+    fileCurrentName = checkSum + "." + fileSize + extension;   //rename file
     return fileCurrentName;
 }
 
 public static int checkSum(InputStream fileIS) throws IOException{
-    int checkSum = 0;
-    int i = 0;
-    int tempASCII; //set a starting point for computing checksum
+    int checkSum = 0, i = 0, tempASCII;   //set a starting point for computing checksum
     while ( (tempASCII = fileIS.read()) != -1)   //compute the checksum for the whole file
     {
         int index = i % 4;
