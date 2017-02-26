@@ -1,3 +1,9 @@
+//Jocelyn Ramirez - jsyramirez@gmail.com
+//
+//This file implements the GUI for the Version Control Application.
+//It also starts up the GUI and calls in the classes/methods
+//to actually create the repo, write acitvity logs, etc.
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -8,15 +14,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
-class Main extends TemporaryClass //will update to impl. class
+class Main_GUI extends TemporaryClass //Will use the implemenatation class
 {
+	//Variables from user input
 	private JTextField username = new JTextField(30);
 	private JTextField dirCpy = new JTextField(30);
 	private JTextField repoLoc = new JTextField(10);
 	private String manifestoFile = "../activity_logs.txt";
 	private TemporaryClass m_tc = new TemporaryClass();
 
-
+	//create menu bar at the top of the GUI
 	public void createMenuBar(JFrame frame)
 	{
 		 JMenuBar menu_bar = new JMenuBar();
@@ -28,7 +35,7 @@ class Main extends TemporaryClass //will update to impl. class
 		 frame.add(menu_bar);
 		 frame.setJMenuBar(menu_bar);
 	}
-
+	//create the main page of the gui
 	public void createMainPanel(JPanel panel)
 	{
 		panel.setBackground(Color.white);
@@ -61,6 +68,7 @@ class Main extends TemporaryClass //will update to impl. class
 		createButton.addActionListener(new createRepo());
 		panel.add(createButton, gbc);
 	}
+	//implement event when user hits create repo
 	class createRepo implements ActionListener{
 		public void actionPerformed(ActionEvent e)
 		{
@@ -72,6 +80,7 @@ class Main extends TemporaryClass //will update to impl. class
 			//call create repo
 		}
 	}
+	//impl. event when user has selected to view activity logs
 	class openLogs implements ActionListener {
   		public void actionPerformed(ActionEvent e) {
 			File file = new File(manifestoFile);
@@ -89,7 +98,8 @@ class Main extends TemporaryClass //will update to impl. class
 			}catch (IOException f) {}
 		}
 	}
-	Main()
+	//set the main function for the GUI
+	Main_GUI()
 	{
 		final JFrame frame = new JFrame("Version Control");
 		JPanel panel = new JPanel();
@@ -101,9 +111,9 @@ class Main extends TemporaryClass //will update to impl. class
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
-
+	//start running the gui
 	public static void main(String[] args)
 	{
-		new Main();
+		new Main_GUI();
 	}
 }
