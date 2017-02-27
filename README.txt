@@ -6,8 +6,8 @@ We are **Team LRH** and this project is a source code management system made fro
 
 **Authors**
    - Thomas Lindblom (tlindblomjr@gmail.com)
-   - Jocelyn Ramirez(jsyramirez@gmail.com)
-   - Yushen Huang(maple.yushen@gmail.com)
+   - Jocelyn Ramirez (jsyramirez@gmail.com)
+   - Yushen Huang (maple.yushen@gmail.com)
 
 ###Project Progress
    - Project Part 1: 'Create Repo' Completed 2-26-17
@@ -31,8 +31,7 @@ We are **Team LRH** and this project is a source code management system made fro
       cd PATH_TO_EXTRACTED_FOLDER/543-p1_LRH/543-p1_LRH/src
       java com.LRH.Main
       
-      Note: For PATH_TO_EXTRACTED_FOLDER (enter the extracted folder and use that path)
-   
+        
 ####Using an IDE
 
    1. Add Main_GUI.java, Repo.java, Main.java to your project
