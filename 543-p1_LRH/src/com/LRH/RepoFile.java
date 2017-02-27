@@ -88,8 +88,8 @@ public class RepoFile extends File {
         //will eventually call write to manifest
     }
 
-    private void createActivityDirectory(String repoDestPath) throws IOException { //also creates than manifest.txt file
-        File activity = FileUtils.getFile(repoDestPath + "\\" + "activity");
+    private void createActivityDirectory() throws IOException { //also creates than manifest.txt file
+        File activity = FileUtils.getFile(this.destPath + "\\" + "activity");
         FileUtils.forceMkdir(activity);
 
         File manifest = FileUtils.getFile(activity.getAbsolutePath() + "\\" + "manifest.txt");
