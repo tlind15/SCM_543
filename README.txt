@@ -28,8 +28,8 @@ We are **Team LRH** and this project is a source code management system made fro
 
       cd PATH_TO_EXTRACTED_FOLDER/SCM_543-master/543-p1_LRH/src/com/LRH
       set path=C:\Program Files\Java\jdk1.6.0_23\bin (or whatever the path to your jdk is)
-      javac -classpath PATH_TO_EXTRACTED_FOLDER/SCM_543-master/commons-io-2.5.jar -d PATH_TO_EXTRACTED_FOLDER Main_GUI.java Main.java RepoFile.java
-      java -cp .;PATH_TO_EXTRACTED_FOLDER/ com.LRH.Main
+      javac -classpath PATH_TO_EXTRACTED_FOLDER/SCM_543-master/commons-io-2.5.jar Main_GUI.java Main.java RepoFile.java
+      java com.LRH.Main
       
       Note: For PATH_TO_EXTRACTED_FOLDER (enter the extracted folder and use that path)
    
