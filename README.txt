@@ -17,7 +17,7 @@ We are **Team LRH** and this project is a source code management system made fro
 
 ###Build, Installation, and Setup
 
-##Using the Command Line (Mac OS, Linux, or Windows)
+####Using the Command Line (Mac OS, Linux, or Windows)
 
    1. Unzip folder to any location
 
@@ -29,7 +29,7 @@ We are **Team LRH** and this project is a source code management system made fro
       javac commons-io-2.5.jar Main_GUI.java Main.java RepoFile.java
       java Main_GUI
    
-##Using an IDE
+####Using an IDE
 
    1. Add Main_GUI.java, Repo.java, Main.java to your project
     
