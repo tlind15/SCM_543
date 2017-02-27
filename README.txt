@@ -55,6 +55,8 @@ To view activity logs
    1. Run GUI
 
    2. Click View, go to Activity Logs and a display will appear.
+   
+   3. Note: Activity logs will not appear if a repository has not yet been created. 
 
 ###Extra Features
    User friendly GUI that prompts users for inputs, allows them to create the repo with a single button click, and displays manifest        files.
