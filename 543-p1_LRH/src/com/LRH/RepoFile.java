@@ -5,6 +5,12 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.BufferedWriter;
+import java.io.PrintWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.sql.Timestamp;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 
@@ -91,13 +97,13 @@ public class RepoFile extends File {
             createLeafFolder(f);
         createActivityDirectory(repoDestPath);
     }
-    
+
     //whenever a repo is created write to the activity logs 'who, what, when'
-	public void writeToManifesto_RepoCreate(String repo_loc, String dir_cpy, String username, String manifestoFile)
-	{
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		try (PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(manifestoFile, true), StandardCharsets.UTF_8)))) {
-    		out.println("User: " + username + " Created Repo at: " + repo_loc + " - " + timestamp);
-		} catch (IOException e) {System.out.println("Could not write to Activity Logs");}
-	}
+    public void writeToManifesto_RepoCreate(String repo_loc, String dir_cpy, String username, String manifestoFile)
+    {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(manifestoFile, true), StandardCharsets.UTF_8)))) {
+            out.println("User: " + username + " Created Repo at: " + repo_loc + " - " + timestamp);
+        } catch (IOException e) {System.out.println("Could not write to Activity Logs");}
+    }
 }
