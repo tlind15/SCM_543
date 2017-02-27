@@ -17,7 +17,7 @@ JRE 8
 
 ###Build, Installation, and Setup
 
-Mac OS, Linux, or Windows
+##Using the Command Line (Mac OS, Linux, or Windows)
 
 1. Unzip folder to any location
 
@@ -28,8 +28,18 @@ Mac OS, Linux, or Windows
    cd PATH_TO_EXTRACTED_FOLDER/543-p1_LRH/src/com/LRH
    
    javac commons-io-2.5.jar Main_GUI.java Main.java RepoFile.java
+   
+##Using an IDE
 
+1. Add Main_GUI.java, Repo.java, Main.java to your project
+ 
+2. Change the package name of the added files to be the same as your package 
 
+3. Add commons-io-2.5.jar to your porject libraries
+
+4. Run Main.java
+
+ 
 ###Usage
 To start GUI run command
 
