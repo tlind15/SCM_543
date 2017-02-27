@@ -21,7 +21,7 @@ public class RepoFile extends File {
 
     public RepoFile (String destPath, String username) {
         super(destPath); //is the default constructor for the java 'File' class
-        this.destPath
+        this.destPath = destPath;
         this.username = username;
     }
 
