@@ -119,7 +119,7 @@ public class RepoFile extends File {
     {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(getManifestFile().getAbsolutePath() , true), StandardCharsets.UTF_8)))) {
-            out.println("User: " + username + " Created Repo at: " + this.getAbsolutePath() + " Created Repo From: " + originalPath + " - " + timestamp);
+            out.println("Project Code Name: BRC-1 " + "User: " + username + " Created Repo at: " + this.getAbsolutePath() + " Created Repo From: " + originalPath + " - " + timestamp);
         } catch (IOException e) {System.out.println("Could not write to Activity Logs");}
     }
 
