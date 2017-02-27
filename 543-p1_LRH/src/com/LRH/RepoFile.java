@@ -100,7 +100,7 @@ public class RepoFile extends File {
         manifest.createNewFile();
     }
 
-    private File getManifestFile () {
+    public File getManifestFile () {
         return FileUtils.getFile(this.getAbsolutePath() + "\\" + "activity" + "\\" + "manifest.txt");
     }
 
