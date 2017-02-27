@@ -1,6 +1,9 @@
 package com.LRH;
 
-import java.io.*;
+import java.io.File;
+import java.io.InputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 public static String newFileCodeName(File file) throws IOException{
     long fileSize = file.length();   //get the size of file
