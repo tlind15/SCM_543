@@ -26,9 +26,9 @@ We are **Team LRH** and this project is a source code management system made fro
 
    3. Run commands
 
-      cd PATH_TO_EXTRACTED_FOLDER/SCM_543-master/543-p1_LRH/src/com/LRH
-      set path=C:\Program Files\Java\jdk1.6.0_23\bin (or whatever the path to your jdk is)
-      javac -classpath PATH_TO_EXTRACTED_FOLDER/SCM_543-master/commons-io-2.5.jar Main_GUI.java Main.java RepoFile.java
+      cd PATH_TO_EXTRACTED_FOLDER/543-p1_LRH/543-p1_LRH/src/com/LRH
+      javac -classpath PATH_TO_EXTRACTED_FOLDER/543-p1_LRH/commons-io-2.5.jar Main_GUI.java Main.java RepoFile.java
+      cd PATH_TO_EXTRACTED_FOLDER/543-p1_LRH/543-p1_LRH/src
       java com.LRH.Main
       
       Note: For PATH_TO_EXTRACTED_FOLDER (enter the extracted folder and use that path)
@@ -73,5 +73,4 @@ To view activity logs
   -The user must supply a valid location to copy from.
   -The directory where the repository is to be created must be valid and already exist.
   -Assumes user gives all inputs to the GUI (does not leave any fields blank).
-  -Compiles but doesn't include neccesary .jar file at runtime from command line. Works perfect in IDE however
 
