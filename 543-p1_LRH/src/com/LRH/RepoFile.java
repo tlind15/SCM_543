@@ -17,70 +17,76 @@ import java.util.List;
 public class RepoFile extends File {
 
     //*** Thomas Lindblom - tlindblomjr@gmail.com***
+    
+    /*The RepoFile class simply extends the java File class and adds some funcitonality. The RepoFile represents the directory
+    in which the user will create their new Repository. See individual functions for more specific descriptions.*/
     private String username;
     private String destPath;
-
+    
     public RepoFile (String destPath) {
         super(destPath); //is the default constructor for the java 'File' class
         this.destPath = destPath;
     }
 
+    //this simply copies the project tree at 'originalPath' to the 'destPath' of the RepoFile
     private File copyFolder(String originalPath) throws IOException {
-        //File file_dest = FileUtils.getFile(dest + "\\" + this.getName()); //creates file path for new destination from String
-        File file_original = FileUtils.getFile(originalPath);
-        File repo_directory = FileUtils.getFile(this + "\\" + file_original.getName());
+        File file_original = FileUtils.getFile(originalPath); //gets file at 'originalPath'
+        File repo_directory = FileUtils.getFile(this + "\\" + file_original.getName()); //this maintains the original project tree parent folder
         FileUtils.copyDirectory(file_original, repo_directory);
 
         return repo_directory;
     }
+    
+    //creates the leaf file folders in repository
+    private void createLeafFolder (File file) throws IOException {
+        final String TEMP_DIR = "scm_temp"; 
+        File tempDir = FileUtils.getFile(file.getParent() + "\\" + TEMP_DIR); //makes a temporary directory because the leafDirectory cannot have the same name as the file at this point
+        FileUtils.moveFileToDirectory(file, tempDir, true); //move leaf file into new directory
+        File leafDir = FileUtils.getFile(tempDir.getParent() + "\\" + file.getName());
+        FileUtils.moveDirectory(tempDir, leafDir); //rename temp directory to old file name
 
+        renameLeafFileArtifact(file); //give file artifact a code name
 
-    private void renameLeafFileArtifact(File leafDirectoryFolder) throws IOException {
+        List<File> artifactFiles = (List<File>) FileUtils.listFiles(leafDir, null, false);
+        for (File artifact : artifactFiles) //make a manifest entry for the newly created leafDirectory
+            writeToManifesto_FileAdded(artifact, leafDir.getName());
+
+    }
+
+    //give leafFile artifact an AID name
+    private void renameLeafFileArtifact(File leafDirectoryFolder) throws IOException { 
         List<File> artifactFiles = (List<File>) FileUtils.listFiles(leafDirectoryFolder, null, false);
-
         String newFileName;
         File codeNameFile;
         for (File artifact : artifactFiles) {
             newFileName = newFileCodeName(artifact);
             codeNameFile = FileUtils.getFile(leafDirectoryFolder.getAbsolutePath() + "\\" + newFileName);
-            FileUtils.moveFile(artifact, codeNameFile);
+            FileUtils.moveFile(artifact, codeNameFile); //actually rename the artifact file
         }
     }
 
-    private void createLeafFolder (File file) throws IOException {
-        final String TEMP_DIR = "scm_temp";
-        File tempDir = FileUtils.getFile(file.getParent() + "\\" + TEMP_DIR);
-        FileUtils.moveFileToDirectory(file, tempDir, true);
-        File leafDir = FileUtils.getFile(tempDir.getParent() + "\\" + file.getName());
-        FileUtils.moveDirectory(tempDir, leafDir);
-
-        renameLeafFileArtifact(file); //give file artifact a code name
-
-        List<File> artifactFiles = (List<File>) FileUtils.listFiles(leafDir, null, false);
-        for (File artifact : artifactFiles)
-            writeToManifesto_FileAdded(artifact, leafDir.getName());
-
-    }
-
-    private void createActivityDirectory() throws IOException { //also creates than manifest.txt file
+    //creates the manifest.txt file
+    private void createActivityDirectory() throws IOException { 
         File activity = FileUtils.getFile(this.destPath + "\\" + "activity");
         FileUtils.forceMkdir(activity);
 
         File manifest = FileUtils.getFile(activity.getAbsolutePath() + "\\" + "manifest.txt");
         manifest.createNewFile();
     }
-
+    
+    //provides simple way to get this directory path
     public File getManifestFile () {
         return new File(this.getAbsolutePath() + "\\" + "activity" + "\\" + "manifest.txt");
     }
 
+    //creates the repository with project tree from 'originalPath' to 'destPath' supplied in constructor
     public void createRepo(String originalPath, String username) throws IOException {
-        this.username = username;
-        File repoDir = copyFolder(originalPath);
+        this.username = username; //set the user doing the command
+        File repoDir = copyFolder(originalPath); //copy files
         createActivityDirectory();
         writeToManifest_RepoCreate(originalPath);
         List<File> leafFiles =  (List<File>) FileUtils.listFiles(repoDir, null, true);
-        for (File f : leafFiles)
+        for (File f : leafFiles) //create leafDirectories
             createLeafFolder(f);
     }
     //***end Thomas***
