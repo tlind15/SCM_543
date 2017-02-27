@@ -26,8 +26,8 @@ We are **Team LRH** and this project is a source code management system made fro
    3. Run commands
 
       cd PATH_TO_EXTRACTED_FOLDER/543-p1_LRH/src/com/LRH
-      javac commons-io-2.5.jar Main_GUI.java Main.java RepoFile.java
-      java Main_GUI
+      javac PATH_TO_EXTRACTED_FOLDER/SCM_543-master/commons-io-2.5.jar -d PATH_TO_EXTRACTED_FOLDER Main_GUI.java Main.java RepoFile.java
+      java -cp .;PATH_TO_EXTRACTED_FOLDER/ com.LRH.Main
    
 ####Using an IDE
 
