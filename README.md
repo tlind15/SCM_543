@@ -16,6 +16,7 @@ We are **Team LRH** and this project is a source code management system made fro
 JRE 8
 
 ###Build, Installation, and Setup
+
 Mac OS or Linux
 1. Unzip folder to any location
 2. Open up terminal and go to extracted folder location
@@ -26,10 +27,13 @@ Mac OS or Linux
 
 ###Usage
 Run command 
+
 java Main_GUI
 
 To create repo:
+
 Enter the Username, the location of the files you would like to copy, and where the repo will be located.
+
 Then hit 'create'.
 
 ###Extra Features
