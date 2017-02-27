@@ -22,7 +22,7 @@ public class Main_GUI {
     private JTextField username = new JTextField(30);
     private JTextField dirCpy = new JTextField(30);
     private JTextField repoLoc = new JTextField(10);
-    private String manifestoFile = "../activity_logs.txt";
+    private String manifestFile = "";
 
     //create menu bar at the top of the GUI
     public void createMenuBar(JFrame frame)
@@ -78,6 +78,8 @@ public class Main_GUI {
             String ui_repoLoc = repoLoc.getText();
             //call create repo
             RepoFile repo = new RepoFile(ui_repoLoc);
+            manifestFile = repo.getManifestFile().getAbsolutePath();
+
 
             try {
                 repo.createRepo(ui_dirCpy, ui_username);
@@ -91,7 +93,7 @@ public class Main_GUI {
     //impl. event when user has selected to view activity logs
     class openLogs implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            File file = new File(manifestoFile);
+            File file = new File(manifestFile);
             try(FileReader fileReader = new FileReader(file))
             {
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -119,9 +121,4 @@ public class Main_GUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
-	//start running the gui
-	public static void main(String[] args)
-	{
-		new Main_GUI();
-	}
 }
