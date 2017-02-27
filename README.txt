@@ -61,5 +61,6 @@ To view activity logs
 
 ###Known Bugs
   -The user must supply a valid location to copy from.
-  -Assumes user gives all inputs to the GUI.
+  -The directory where the repository is to be created must be valid and already exist.
+  -Assumes user gives all inputs to the GUI (does not leave any fields blank).
 
