@@ -96,12 +96,12 @@ public class RepoFile extends File {
         manifest.createNewFile();
     }
 
-    public void createRepo(String repoDestPath) throws IOException {
-        File dest_file = this.copyFolder(repoDestPath);
-        List<File> leafFiles =  (List<File>) FileUtils.listFiles(dest_file, null, true);
+    public void createRepo(String originalPath) throws IOException {
+        copyFolder(originalPath);
+        List<File> leafFiles =  (List<File>) FileUtils.listFiles(this, null, true);
         for (File f : leafFiles)
             createLeafFolder(f);
-        createActivityDirectory(repoDestPath);
+        createActivityDirectory();
     }
 
     //whenever a repo is created write to the activity logs 'who, what, when'
