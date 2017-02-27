@@ -42,7 +42,10 @@ Enter the Username, the location of the files you would like to copy, and where 
 Then hit 'create'.
 
 ###Extra Features
+User friendly GUI that prompts users for inputs, allows them to create the repo with a single button click, and displays manifest files.
 
 ###Known Bugs
 The user must supply a valid location to copy from.
+
+Assumes user gives all inputs to the GUI.
 
