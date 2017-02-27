@@ -16,6 +16,7 @@ import java.util.List;
 
 public class RepoFile extends File {
 
+    //*** Thomas Lindblom - tlindblomjr@gmail.com***
     private String username;
     private String destPath;
 
@@ -33,37 +34,6 @@ public class RepoFile extends File {
         return repo_directory;
     }
 
-    public static String newFileCodeName(File file) throws IOException {
-        long fileSize = file.length();   //get the size of file
-        String fileCurrentName = file.getName();   //get the original name of file to be renamed
-        String extension = fileCurrentName.substring(fileCurrentName.lastIndexOf("."));   //get the file name extension
-        InputStream fileIS = new FileInputStream(file);  //get file content
-        int checkSum = checkSum(fileIS);  // Call function for checkSum
-        fileIS.close();  // close the input stream
-        return checkSum + "." + fileSize + extension;   //rename file
-    }
-
-    public static int checkSum(InputStream fileIS) throws IOException{
-        int checkSum = 0, i = 0, tempASCII;   //set a starting point for computing checksum
-        while ( (tempASCII = fileIS.read()) != -1)   //compute the checksum for the whole file
-        {
-            int index = i % 4;
-            switch (index) {
-                case 1:
-                    tempASCII *= 3;
-                    break;
-                case 2:
-                    tempASCII *= 11;
-                    break;
-                case 3:
-                    tempASCII *= 17;
-                    break;
-            }
-            checkSum += tempASCII;
-            i++;
-        }
-        return checkSum;
-    }
 
     private void renameLeafFileArtifact(File leafDirectoryFolder) throws IOException {
         List<File> artifactFiles = (List<File>) FileUtils.listFiles(leafDirectoryFolder, null, false);
@@ -113,7 +83,44 @@ public class RepoFile extends File {
         for (File f : leafFiles)
             createLeafFolder(f);
     }
+    //***end Thomas***
 
+    //***Yushen Huang - maple.yushen@gmail.com***
+    public static String newFileCodeName(File file) throws IOException {
+        long fileSize = file.length();   //get the size of file
+        String fileCurrentName = file.getName();   //get the original name of file to be renamed
+        String extension = fileCurrentName.substring(fileCurrentName.lastIndexOf("."));   //get the file name extension
+        InputStream fileIS = new FileInputStream(file);  //get file content
+        int checkSum = checkSum(fileIS);  // Call function for checkSum
+        fileIS.close();  // close the input stream
+        return checkSum + "." + fileSize + extension;   //rename file
+    }
+
+    public static int checkSum(InputStream fileIS) throws IOException{
+        int checkSum = 0, i = 0, tempASCII;   //set a starting point for computing checksum
+        while ( (tempASCII = fileIS.read()) != -1)   //compute the checksum for the whole file
+        {
+            int index = i % 4;
+            switch (index) {
+                case 1:
+                    tempASCII *= 3;
+                    break;
+                case 2:
+                    tempASCII *= 11;
+                    break;
+                case 3:
+                    tempASCII *= 17;
+                    break;
+            }
+            checkSum += tempASCII;
+            i++;
+        }
+        return checkSum;
+    }
+    //***end Yushen***
+
+
+    //***Jocelyn Ramirez - jsyramirez@gmail.com***
     //whenever a repo is created write to the activity logs 'who, what, when'
     private void writeToManifest_RepoCreate(String originalPath)
     {
@@ -131,4 +138,5 @@ public class RepoFile extends File {
         } catch (IOException e) {System.out.println("Could not write added file");}
         //exception handling left as an exercise for the reader
     }
+    //***end Jocelyn***
 }
