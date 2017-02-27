@@ -101,7 +101,7 @@ public class RepoFile extends File {
     }
 
     public File getManifestFile () {
-        return FileUtils.getFile(this.getAbsolutePath() + "\\" + "activity" + "\\" + "manifest.txt");
+        return new File(this.getAbsolutePath() + "\\" + "activity" + "\\" + "manifest.txt");
     }
 
     public void createRepo(String originalPath, String username) throws IOException {
