@@ -17,7 +17,7 @@ JRE 8
 
 ###Build, Installation, and Setup
 
-Mac OS or Linux
+Mac OS, Linux, or Windows
 
 1. Unzip folder to any location
 
