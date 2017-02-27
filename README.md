@@ -18,6 +18,7 @@ JRE 8
 ###Build, Installation, and Setup
 
 Mac OS or Linux
+
 1. Unzip folder to any location
 2. Open up terminal and go to extracted folder location
    cd path_to_file_location
