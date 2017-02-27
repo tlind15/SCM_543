@@ -50,6 +50,9 @@ To create repo:
    1. Run GUI
 
    2. Enter the Username, the location of the files you would like to copy, and where the repo will be located.
+      e.g. Username: Alex
+           Directory to Copy: E:\mypt
+           Repo Location: D:\Repo
 
    3. Then hit 'create'.
 
