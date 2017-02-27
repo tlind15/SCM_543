@@ -75,9 +75,10 @@ class Main_GUI extends TemporaryClass //Will use the implemenatation class
 			String ui_username = username.getText();
 			String ui_dirCpy = dirCpy.getText();
 			String ui_repoLoc = repoLoc.getText();
+			//call create repo
+			
 			//call manifesto edit
 			m_tc.writeToManifesto_RepoCreate(ui_repoLoc, ui_dirCpy, ui_username, manifestoFile);
-			//call create repo
 		}
 	}
 	//impl. event when user has selected to view activity logs
@@ -95,7 +96,7 @@ class Main_GUI extends TemporaryClass //Will use the implemenatation class
 				}
 			fileReader.close();
 			JOptionPane.showMessageDialog(null, stringBuffer.toString(), "Activity Logs", JOptionPane.PLAIN_MESSAGE);
-			}catch (IOException f) {}
+			}catch (IOException f) {System.out.println("Could not read Activity Logs");}
 		}
 	}
 	//set the main function for the GUI
