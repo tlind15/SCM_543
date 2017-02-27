@@ -19,17 +19,18 @@ public class RepoFile extends File {
     private String username;
     private String destPath;
 
-    public RepoFile (String destPath, String username) {
+    public RepoFile (String destPath) {
         super(destPath); //is the default constructor for the java 'File' class
         this.destPath = destPath;
-        this.username = username;
     }
 
-    private void copyFolder(String originalPath) throws IOException {
+    private File copyFolder(String originalPath) throws IOException {
         //File file_dest = FileUtils.getFile(dest + "\\" + this.getName()); //creates file path for new destination from String
         File file_original = FileUtils.getFile(originalPath);
-        FileUtils.copyDirectory(file_original, this);
-        //return file_dest;
+        File repo_directory = FileUtils.getFile(this + "\\" + file_original.getName());
+        FileUtils.copyDirectory(file_original, repo_directory);
+
+        return repo_directory;
     }
 
     public static String newFileCodeName(File file) throws IOException {
@@ -85,7 +86,10 @@ public class RepoFile extends File {
 
         renameLeafFileArtifact(file); //give file artifact a code name
 
-        //will eventually call write to manifest
+        List<File> artifactFiles = (List<File>) FileUtils.listFiles(leafDir, null, false);
+        for (File artifact : artifactFiles)
+            writeToManifesto_FileAdded(artifact, leafDir.getName());
+
     }
 
     private void createActivityDirectory() throws IOException { //also creates than manifest.txt file
@@ -96,20 +100,35 @@ public class RepoFile extends File {
         manifest.createNewFile();
     }
 
-    public void createRepo(String originalPath) throws IOException {
-        copyFolder(originalPath);
-        List<File> leafFiles =  (List<File>) FileUtils.listFiles(this, null, true);
+    private File getManifestFile () {
+        return FileUtils.getFile(this.getAbsolutePath() + "\\" + "activity" + "\\" + "manifest.txt");
+    }
+
+    public void createRepo(String originalPath, String username) throws IOException {
+        this.username = username;
+        File repoDir = copyFolder(originalPath);
+        createActivityDirectory();
+        writeToManifest_RepoCreate(originalPath);
+        List<File> leafFiles =  (List<File>) FileUtils.listFiles(repoDir, null, true);
         for (File f : leafFiles)
             createLeafFolder(f);
-        createActivityDirectory();
     }
 
     //whenever a repo is created write to the activity logs 'who, what, when'
-    public void writeToManifesto_RepoCreate(String repo_loc, String dir_cpy, String username, String manifestoFile)
+    private void writeToManifest_RepoCreate(String originalPath)
     {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        try (PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(manifestoFile, true), StandardCharsets.UTF_8)))) {
-            out.println("User: " + username + " Created Repo at: " + repo_loc + " - " + timestamp);
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(getManifestFile().getAbsolutePath() , true), StandardCharsets.UTF_8)))) {
+            out.println("User: " + username + " Created Repo at: " + this.getAbsolutePath() + " Created Repo From: " + originalPath + " - " + timestamp);
         } catch (IOException e) {System.out.println("Could not write to Activity Logs");}
+    }
+
+    private void writeToManifesto_FileAdded(File artifactFile, String original_file_name)
+    {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(getManifestFile().getAbsolutePath(), true), StandardCharsets.UTF_8)))) {
+            out.println("Adding File...\nFile Name: " + original_file_name + " Artifact ID: " + artifactFile.getName().substring(0, artifactFile.getName().lastIndexOf(".")) + " File Location: " + artifactFile.getAbsolutePath());
+        } catch (IOException e) {System.out.println("Could not write added file");}
+        //exception handling left as an exercise for the reader
     }
 }
