@@ -17,7 +17,7 @@ public class TemporaryClass
 	{
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		try (PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(manifestoFile, true), StandardCharsets.UTF_8)))) {
-    		out.println("User: " + username + " Created Repo at: " + repo_loc + " Created Repo From" + dir_cpy + " - " + timestamp);
+    		out.println("User: " + username + " Created Repo at: " + repo_loc + " Created Repo From: " + dir_cpy + " - " + timestamp);
 		} catch (IOException e) {System.out.println("Could not write to Activity Logs");}
 	}
 	public void writeToManifesto_FileAdded(String artifactID, String file_name, String file_path, String manifestoFile)
