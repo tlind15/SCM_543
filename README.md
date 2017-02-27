@@ -33,19 +33,21 @@ Mac OS, Linux, or Windows
 ###Usage
 To start GUI run command
 
-   java Main_GUI
+ - java Main_GUI
 
 To create repo:
 
-   Enter the Username, the location of the files you would like to copy, and where the repo will be located.
+1. Run GUI
 
-   Then hit 'create'.
+2. Enter the Username, the location of the files you would like to copy, and where the repo will be located.
+
+3. Then hit 'create'.
 
 To view activity logs
 
-   Run GUI
+1. Run GUI
 
-   Click View, Go to Activity Logs and a display will appear.
+2. Click View, go to Activity Logs and a display will appear.
 
 ###Extra Features
 User friendly GUI that prompts users for inputs, allows them to create the repo with a single button click, and displays manifest files.
