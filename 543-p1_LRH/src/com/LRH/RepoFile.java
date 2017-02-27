@@ -91,7 +91,10 @@ public class RepoFile extends File {
     }
     //***end Thomas***
 
-    //***Yushen Huang - maple.yushen@gmail.com***
+    //***Yushen Huang - maple.yushen@gmail.com 
+    //This newFileCodeName function implement the Artifact code names as well as its original extension.
+    //It also calls the checkSum to finish computing the Artifact ID per***
+    
     public static String newFileCodeName(File file) throws IOException {
         long fileSize = file.length();   //get the size of file
         String fileCurrentName = file.getName();   //get the original name of file to be renamed
@@ -99,7 +102,7 @@ public class RepoFile extends File {
         InputStream fileIS = new FileInputStream(file);  //get file content
         int checkSum = checkSum(fileIS);  // Call function for checkSum
         fileIS.close();  // close the input stream
-        return checkSum + "." + fileSize + extension;   //rename file
+        return checkSum + "." + fileSize + extension;   //file code name
     }
 
     public static int checkSum(InputStream fileIS) throws IOException{
