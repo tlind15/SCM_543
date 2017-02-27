@@ -25,10 +25,11 @@ public class RepoFile extends File {
         this.username = username;
     }
 
-    private File copyFolder(String dest) throws IOException {
-        File file_dest = FileUtils.getFile(dest + "\\" + this.getName()); //creates file path for new destination from String
-        FileUtils.copyDirectory(this, file_dest);
-        return file_dest;
+    private void copyFolder(String originalPath) throws IOException {
+        //File file_dest = FileUtils.getFile(dest + "\\" + this.getName()); //creates file path for new destination from String
+        File file_original = FileUtils.getFile(originalPath);
+        FileUtils.copyDirectory(file_original, this);
+        //return file_dest;
     }
 
     public static String newFileCodeName(File file) throws IOException {
