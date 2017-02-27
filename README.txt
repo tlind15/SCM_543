@@ -10,7 +10,7 @@ We are **Team LRH** and this project is a source code management system made fro
    - Yushen Huang(maple.yushen@gmail.com)
 
 ###Project Progress
-   - Part 1: 'Create Repo' Completed 2-26-17
+   - Project Part 1: 'Create Repo' Completed 2-26-17
 
 ###External Requirements
    -JRE 8
