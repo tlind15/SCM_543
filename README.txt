@@ -1,6 +1,6 @@
 # SCM_543
 
-##(Project Name)
+##Branch
 
 We are **Team LRH** and this project is a source code management system made from scratch. It is being done as a project for **CECS 543 Section 2** (Advanced Software Engineering) at CSU Long Beach. The current functionallity allows for the user to pass in a folder they would like to create a repo from and where they would like that repo to be located. Whenever the user creates a repo that will be logged to a manifest file located at the top level directory of their repo. We provide an easy to use GUI that prompts users for these inputs and displays manifest files to them.
 
