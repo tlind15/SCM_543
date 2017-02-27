@@ -20,4 +20,12 @@ public class TemporaryClass
     		out.println("User: " + username + " Created Repo at: " + repo_loc + " - " + timestamp);
 		} catch (IOException e) {System.out.println("Could not write to Activity Logs");}
 	}
+	public void writeToManifesto_FileAdded(String artifactID, String file_name, String file_path, String manifestoFile)
+	{
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		try (PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(manifestoFile, true), StandardCharsets.UTF_8)))) {
+    		out.println("Adding File...\nFile Name: " + file_name + " Artifact ID: " + artifactID + " File Location: " + file_path);
+		} catch (IOException e) {System.out.println("Could not write added file");}
+	    //exception handling left as an exercise for the reader
+	}
 }
