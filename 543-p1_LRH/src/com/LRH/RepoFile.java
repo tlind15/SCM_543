@@ -16,8 +16,13 @@ import java.util.List;
 
 public class RepoFile extends File {
 
-    public RepoFile (String originalPath) {
-        super(originalPath); //is the default constructor for the java 'File' class
+    private String username;
+    private String destPath;
+
+    public RepoFile (String destPath, String username) {
+        super(destPath); //is the default constructor for the java 'File' class
+        this.destPath
+        this.username = username;
     }
 
     private File copyFolder(String dest) throws IOException {
