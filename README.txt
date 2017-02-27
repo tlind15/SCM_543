@@ -27,7 +27,7 @@ Mac OS, Linux, or Windows
 
    cd PATH_TO_EXTRACTED_FOLDER/543-p1_LRH/src/com/LRH
    
-   javac commons-io-2.5.jar Main_GUI.java
+   javac commons-io-2.5.jar Main_GUI.java Main.java RepoFile.java
 
 
 ###Usage
