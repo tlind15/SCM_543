@@ -20,15 +20,14 @@ public class RepoFile extends File {
         return file_dest;
     }
 
-    public static String newFileCodeName(File file) throws IOException{
+    public static String newFileCodeName(File file) throws IOException {
         long fileSize = file.length();   //get the size of file
         String fileCurrentName = file.getName();   //get the original name of file to be renamed
         String extension = fileCurrentName.substring(fileCurrentName.lastIndexOf("."));   //get the file name extension
         InputStream fileIS = new FileInputStream(file);  //get file content
         int checkSum = checkSum(fileIS);  // Call function for checkSum
         fileIS.close();  // close the input stream
-        fileCurrentName = checkSum + "." + fileSize + extension;   //rename file
-        return fileCurrentName;
+        return checkSum + "." + fileSize + extension;   //rename file
     }
 
     public static int checkSum(InputStream fileIS) throws IOException{
