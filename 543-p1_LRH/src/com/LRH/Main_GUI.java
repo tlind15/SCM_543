@@ -79,7 +79,7 @@ class Main_GUI extends TemporaryClass //Will use the implemenatation class
 			
 			//call manifesto edit
 			m_tc.writeToManifesto_RepoCreate(ui_repoLoc, ui_dirCpy, ui_username, manifestoFile);
-			JOptionPane.showMessageDialog(null, stringBuffer.toString(), "Repo Created", JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Repo Created", "Done", JOptionPane.PLAIN_MESSAGE);
 			}catch (IOException f) {System.out.println("Could not read create repo\n");}
 		}
 	}
