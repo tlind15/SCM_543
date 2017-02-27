@@ -13,7 +13,8 @@ We are **Team LRH** and this project is a source code management system made fro
    - Part 1: 'Create Repo' Completed 2-26-17
 
 ###External Requirements
-   JRE 8
+   -JRE 8
+   -Can be downloaded here: http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html
 
 ###Build, Installation, and Setup
 
