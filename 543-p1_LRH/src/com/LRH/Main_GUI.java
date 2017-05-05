@@ -1,4 +1,4 @@
-package com.LRH;
+//package com.LRH;
 
 //Jocelyn Ramirez - jsyramirez@gmail.com
 //
@@ -20,6 +20,7 @@ import java.nio.charset.Charset;
 public class Main_GUI {
     //Variables from user input
     private JTextField username = new JTextField(30);
+    private JTextField command_line = new JTextField(40);
     private JTextField dirCpy = new JTextField(30);
     private JTextField repoLoc = new JTextField(10);
     private String manifestFile = "";
@@ -48,26 +49,32 @@ public class Main_GUI {
         panel.setLayout(layout);
         JLabel usernameLabel = new JLabel("Username: ");
         gbc.gridx = 0; gbc.gridy = 0;
-        gbc.gridwidth = 2;
         panel.add(usernameLabel, gbc);
         gbc.gridx = 1; gbc.gridy = 0;
         panel.add(username, gbc);
         JLabel dirCpyLabel = new JLabel("Directory to Copy: ");
         gbc.gridx = 0; gbc.gridy = 1;
-        gbc.gridwidth = 1;
         panel.add(dirCpyLabel, gbc);
         gbc.gridx = 1; gbc.gridy = 1;
         panel.add(dirCpy, gbc);
         JLabel repoLocLabel = new JLabel("Repo Location: ");
         gbc.gridx = 0; gbc.gridy = 2;
-        gbc.gridwidth = 1;
         panel.add(repoLocLabel, gbc);
         gbc.gridx = 1; gbc.gridy = 2;
         panel.add(repoLoc, gbc);
-        JButton createButton = new JButton("Create");
+        JButton createButton = new JButton("Create Repo");
         gbc.gridx = 1; gbc.gridy = 3;
         createButton.addActionListener(new createRepo());
         panel.add(createButton, gbc);
+        JLabel commandLabel = new JLabel("Enter Command: ");
+        gbc.gridx = 2; gbc.gridy = 0;
+        panel.add(commandLabel, gbc);
+        gbc.gridx = 2; gbc.gridy = 1;
+        panel.add(command_line, gbc);
+        JButton enterButton = new JButton("Enter");
+        gbc.gridx = 2; gbc.gridy = 2;
+        panel.add(enterButton, gbc);
+        enterButton.addActionListener(new executeCommand());
     }
     //implement event when user hits create repo
     class createRepo implements ActionListener {
@@ -76,7 +83,7 @@ public class Main_GUI {
             String ui_username = username.getText();
             String ui_dirCpy = dirCpy.getText();
             String ui_repoLoc = repoLoc.getText();
-            //call create repo
+            call create repo
             RepoFile repo = new RepoFile(ui_repoLoc);
             manifestFile = repo.getManifestFile().getAbsolutePath();
 
@@ -87,6 +94,37 @@ public class Main_GUI {
 
             } catch (IOException x) {
                 x.printStackTrace();
+            }
+        }
+    }
+    //implement event when user hits create repo
+    class executeCommand implements ActionListener {
+        public void actionPerformed(ActionEvent e)
+        {
+            String command = command_line.getText();
+            String checkOutStr = "check-out";
+            String checkInStr = "check-in";
+            if (command.toLowerCase().contains(checkOutStr)) {
+                //command comes in as described below
+                //check-out repofoldername emptyfolder version
+                String[] splited = command.split(" ");
+                String repo_location = splited[1];
+                String checkout_location = splited[2];
+                String version = splited[3];
+                System.out.println(repo_location);
+                System.out.println(checkout_location);
+                System.out.println(version);
+                //CALL CHECK OUT FUNCTION w/ the above params
+            }
+            else if(command.toLowerCase().contains(checkInStr)) {
+                //command comes in as described below
+                //check-in repofoldername checkoutfolder
+                String[] splited = command.split(" ");
+                String repo_location = splited[1];
+                String checkout_location = splited[2];
+                System.out.println(repo_location);
+                System.out.println(checkout_location);
+                //CALL CHECK IN COMMAND w/ above params
             }
         }
     }
@@ -121,4 +159,9 @@ public class Main_GUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
+    //uncomment below to test gui alone
+    //public static void main(String args[])
+    //{
+    //    Main_GUI obj = new Main_GUI();
+    //}
 }
