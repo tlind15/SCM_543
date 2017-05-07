@@ -87,7 +87,10 @@ public class TemporaryClass
 	private void writeToManifesto_CheckIn(String repoFolderName, String checkOutFolder)
 	{
 		try (PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(getManifestFile().getAbsolutePath(), true), StandardCharsets.UTF_8)))) {
-			String version = getNewVersion();
+			//String version = getNewVersion();
+			List<String[]> filesList = parseManifestFile();
+			int version = getLatestVersion(filesList);
+			version = version + 1;
 			out.println("Check-In to\tRepo Folder:\t" + repoFolderName + "\tfrom Folder:\t" + checkOutFolder
 				+ "\tVersion:\t" + version);
 		} catch (IOException e) {System.out.println("Could not write checked in file");}
