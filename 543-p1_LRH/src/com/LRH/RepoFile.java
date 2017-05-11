@@ -11,12 +11,12 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.sql.Timestamp;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.Arrays;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
+import com.LRH.Pair;
 
 
 public class RepoFile extends File {
@@ -99,13 +99,26 @@ public class RepoFile extends File {
             createLeafFolder(f, originalPath);
     }
 
-    public void checkout(int repo_version) {
-        //public List<String> getRepoArtifactsByVersion(int version) {} //returns
-        //public List<String> getProjFilePathsByVersion(int version) {}
-        // for (int i=0; i < repo_paths.size(), i++) {
-        //      FileUtils.moveFileToDirectory(repo_paths[i], project_paths[i].getParent(), true);
-        //rename file in project to not have artifact ID
-        // }
+    public void checkout(int repo_version) throws IOException {
+        ArrayList<Pair> corresponding_file_paths = getMatchingRepoAndProjectFiles(repo_version);
+        for (Pair p : corresponding_file_paths)
+            FileUtils.copyFile(p.repo_path, p.project_path);
+
+    }
+
+    public ArrayList<Pair> getMatchingRepoAndProjectFiles (int version_num) {
+        ArrayList<Pair> corresponding_file_paths = new ArrayList<>();
+        List<String[]> manifest_info = parseManifestFile();
+        final int FILE_PATH_IN_REPO = 1;
+        final int FILE_PATH_IN_PROJECT = 3;
+        final int VERSION_IDX = 4;
+        //System.out.println(manifest_info.size());
+        for (String[] file_entry : manifest_info) {
+            System.out.println("hello 2");
+            if (Integer.valueOf(file_entry[VERSION_IDX]) == version_num)
+                corresponding_file_paths.add(new Pair(FileUtils.getFile(file_entry[FILE_PATH_IN_REPO]), FileUtils.getFile(file_entry[FILE_PATH_IN_PROJECT])));
+        }
+        return corresponding_file_paths;
     }
     //***end Thomas***
 
@@ -162,16 +175,20 @@ public class RepoFile extends File {
             StringBuffer stringBuffer = new StringBuffer();
             String line;
             while ((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
                 if (line.toLowerCase().contains("adding file...")) {
                     //System.out.println("Test");
                     String[] spt = line.split("\t");
+                    System.out.println(spt.length);
                     filesList.add(new String[]{spt[2], spt[4], spt[6], spt[8], spt[10]});
                 }
             }
+            //System.out.println(filesList.size());
             fileReader.close();
-            for (String[] row : filesList) {
+            //for (String[] row : filesList) {
                 //System.out.println("Row = " + Arrays.toString(row));
-            }
+            //}
+
             return filesList;
         } catch (IOException f) {
             System.out.println("Could not read manifest file");
