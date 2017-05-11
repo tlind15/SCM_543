@@ -63,31 +63,18 @@ public class RepoFile extends File {
         renameLeafFileArtifact(file); //give file artifact a code name
         String artifact_id = "";
         List<File> artifactFiles = (List<File>) FileUtils.listFiles(leafDir, null, false);
+
         for (File artifact : artifactFiles) {
-            //artifact_id = newFileCodeName(artifact);
-            String[] path_split = artifact.getAbsolutePath().split("\\\\");
-            for (String s : path_split)
-                System.out.println(s);
-            writeToManifesto_FileAdded(artifact, "original path here", artifact.getAbsolutePath(), String.valueOf(this.version));
+            System.out.println(artifact.getName());
+            writeToManifesto_FileAdded(artifact, getOriginalFilePathFromArtifactFile(artifact.getAbsolutePath(), project_path), artifact.getAbsolutePath(), String.valueOf(this.version));
         }
     }
 
-    public String[] findProjectFileEntryByID(String artifact_id) {
-        final int ARTIFACT_ID_IDX = 2;
-        final int VERSION_IDX = 4;
-        List<String[]> manifest_data = parseManifestFile();
-
-        for (String[] file_entry : manifest_data) {
-            if (file_entry[ARTIFACT_ID_IDX].equals(artifact_id) && Integer.valueOf(file_entry[VERSION_IDX]) == this.version)
-                return file_entry;
-        }
-        return null;
-    }
-
-    public String findProjectFilePathByID(String artifact_id) {
-        String[] file_entry = findProjectFileEntryByID(artifact_id);
-        final int FILE_PATH_IDX = 3;
-        return file_entry[FILE_PATH_IDX];
+    public String getOriginalFilePathFromArtifactFile (String artifact_file_path, String project_path) {
+        String [] original_split = project_path.split("\\\\");
+        String [] artifact_path_split = artifact_file_path.split(original_split[original_split.length - 1]);
+        String temp_original_file_path = project_path.replace("\\\\", "\\") + artifact_path_split[1];
+        return temp_original_file_path.substring(0, temp_original_file_path.lastIndexOf("\\"));
     }
 
 
@@ -227,11 +214,12 @@ public class RepoFile extends File {
         //exception handling left as an exercise for the reader
     }
 
-    private void writeToManifesto_FileAdded(File artifactFile, String original_file_name, String path_in_repo, String version) {
+    private void writeToManifesto_FileAdded(File artifactFile, String original_file_path, String path_in_repo, String version) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        String[] original_path_split = original_file_path.split("\\\\");
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(getManifestFile().getAbsolutePath(), true), StandardCharsets.UTF_8)))) {
-            out.println("Adding File...\tFile Name:\t" + original_file_name + "\tPath In Repo\t" + path_in_repo + "\tArtifact ID:\t" +
-                    artifactFile.getName().substring(0, artifactFile.getName().lastIndexOf(".")) + "\tFile Location:\t" + artifactFile.getAbsolutePath()
+            out.println("Adding File...\tFile Name:\t" + original_path_split[original_path_split.length - 1] + "\tPath In Repo\t" + path_in_repo + "\tArtifact ID:\t" +
+                    artifactFile.getName().substring(0, artifactFile.getName().lastIndexOf(".")) + "\tFile Location:\t" + original_file_path
                     + "\tVersion:\t" + version);
         } catch (IOException e) {
             System.out.println("Could not write added file");
