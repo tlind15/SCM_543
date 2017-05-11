@@ -217,7 +217,7 @@ public class RepoFile extends File {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String[] original_path_split = original_file_path.split("\\\\");
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(getManifestFile().getAbsolutePath(), true), StandardCharsets.UTF_8)))) {
-            out.println("\tFile Name:\t" + original_path_split[original_path_split.length - 1] + "\tPath In Repo\t" + path_in_repo + "\tArtifact ID:\t" +
+            out.println("Adding File...\tFile Name:\t" + original_path_split[original_path_split.length - 1] + "\tPath In Repo\t" + path_in_repo + "\tArtifact ID:\t" +
                     artifactFile.getName().substring(0, artifactFile.getName().lastIndexOf(".")) + "\tFile Location:\t" + original_file_path
                     + "\tVersion:\t" + version);
         } catch (IOException e) {
