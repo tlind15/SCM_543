@@ -1,40 +1,31 @@
-public static void checkIn(String srcpath, String destpath) throws Exception {
+    public ArrayList<String> getAllFilesNames(String tgtDirectory) throws IOException{
+        File repoDir = new File(tgtDirectory);
+        List<File> allFiles =  (List<File>) FileUtils.listFiles(repoDir, null, true);
+        ArrayList<String> fileNames = new ArrayList<String>();
+        for (File eachFile : allFiles) {
+            fileNames.add(eachFile.getName());
+        }
+        return fileNames;
+    }
 
-        for (String folderName : getAllNames(srcpath)) {   //get all folder names from srcpath
-            File dest = new File(destpath + "\\" + folderName);
+    public void checkIn(String projectPath, String repoPath, String username) throws IOException{
+        ArrayList<String> projectFileNames = getAllFilesNames(projectPath); //get all file names at users project folder which is folder names for repo
+        String originalProjectName = projectPath.substring(projectPath.lastIndexOf("\\")); //get original project name from user
 
-            if (!folderName.equals("activity")) {  //travese all folders except manifest folder if exists
-                for (String individualFile : getAllNames(srcpath + "\\" + folderName)) {  //get all file names from srcpath and check individual
-                    File src = new File(srcpath + "\\" + folderName + "\\" + individualFile);
+        createRepo(projectPath, username); //create a temp repo from users project file. projectPath
 
-                    for (String repoIndividualFile : getAllNames(destpath + "\\" + folderName)) {  //compare project file artifactID with the one in repo
-
-                        if (individualFile != repoIndividualFile) {
-
-                            if (src.isDirectory()) {
-                                FileUtils.copyDirectoryToDirectory (src, dest);
-                                //call function to write manifest for both adding file action and version number update
-                            }
-                            else {
-                                FileUtils.copyFileToDirectory (src, dest);
-                                //call function to write manifest for both adding file action and version number update
-                            }
-
+        for (String folderName : projectFileNames) {  // for all folder in repo
+            if (!folderName.equals("activity")) {  //exclude activity folder
+                for (String eachArtifact : getAllFilesNames(repoPath + "\\" + originalProjectName + "\\" + folderName)) {  //get file name from current repo
+                    for (String tempCheckInCopy : getAllFilesNames(projectPath + "\\" + originalProjectName+ "\\" + folderName)) {   // get all file names from temp repo
+                        if (eachArtifact != tempCheckInCopy) {
+                            FileUtils.copyFileToDirectory(new File(projectPath + "\\" + originalProjectName + "\\" + folderName + "\\" + tempCheckInCopy), new File(repoPath + "\\" + originalProjectName + "\\" + folderName));
                         }
                     }
                 }
             }
-
-
         }
-    }
-
-    public static ArrayList<String> getAllNames(String tgtDirectory) {
-            File folder = new File(tgtDirectory);
-            File[] listAllFiles = folder.listFiles();
-            ArrayList<String> fileNames = new ArrayList<String>();
-            for (File eachFile : listAllFiles) {
-                fileNames.add(eachFile.getName());
-            }
-            return fileNames;
+        
+        FileUtils.deleteDirectory(new File(projectPath + "\\activity"));
+        FileUtils.deleteDirectory(new File(projectPath + "\\" + originalProjectName)); //delete temp repo folder from user's project path
     }
