@@ -65,8 +65,7 @@ public class RepoFile extends File {
         List<File> artifactFiles = (List<File>) FileUtils.listFiles(leafDir, null, false);
 
         for (File artifact : artifactFiles) {
-            System.out.println(artifact.getName());
-            writeToManifesto_FileAdded(artifact, getOriginalFilePathFromArtifactFile(artifact.getAbsolutePath(), project_path), artifact.getAbsolutePath(), String.valueOf(this.version));
+            writeToManifesto_FileAdded(artifact, getOriginalFilePathFromArtifactFile(artifact.getAbsolutePath(), project_path), artifact.getAbsolutePath(), String.valueOf(getLatestVersion(parseManifestFile())));
         }
     }
 
@@ -164,14 +163,14 @@ public class RepoFile extends File {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 if (line.toLowerCase().contains("adding file...")) {
-                    System.out.println("Test");
+                    //System.out.println("Test");
                     String[] spt = line.split("\t");
                     filesList.add(new String[]{spt[2], spt[4], spt[6], spt[8], spt[10]});
                 }
             }
             fileReader.close();
             for (String[] row : filesList) {
-                System.out.println("Row = " + Arrays.toString(row));
+                //System.out.println("Row = " + Arrays.toString(row));
             }
             return filesList;
         } catch (IOException f) {
@@ -218,7 +217,7 @@ public class RepoFile extends File {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String[] original_path_split = original_file_path.split("\\\\");
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(getManifestFile().getAbsolutePath(), true), StandardCharsets.UTF_8)))) {
-            out.println("Adding File...\tFile Name:\t" + original_path_split[original_path_split.length - 1] + "\tPath In Repo\t" + path_in_repo + "\tArtifact ID:\t" +
+            out.println("\tFile Name:\t" + original_path_split[original_path_split.length - 1] + "\tPath In Repo\t" + path_in_repo + "\tArtifact ID:\t" +
                     artifactFile.getName().substring(0, artifactFile.getName().lastIndexOf(".")) + "\tFile Location:\t" + original_file_path
                     + "\tVersion:\t" + version);
         } catch (IOException e) {
@@ -236,7 +235,7 @@ public class RepoFile extends File {
                 latest_version = temp;
             }
         }
-        System.out.println(latest_version);
+        //System.out.println(latest_version);
         return latest_version;
         //***end Jocelyn***
 
