@@ -65,7 +65,7 @@ public class RepoFile extends File {
         List<File> artifactFiles = (List<File>) FileUtils.listFiles(leafDir, null, false);
 
         for (File artifact : artifactFiles) {
-            writeToManifesto_FileAdded(artifact, getOriginalFilePathFromArtifactFile(artifact.getAbsolutePath(), project_path), artifact.getAbsolutePath(), String.valueOf(getLatestVersion(parseManifestFile())));
+            writeToManifesto_FileAdded(artifact, getOriginalFilePathFromArtifactFile(artifact.getAbsolutePath(), project_path), artifact.getAbsolutePath(), String.valueOf(getLatestVersion(parseManifestFile())), false);
         }
     }
 
@@ -104,7 +104,7 @@ public class RepoFile extends File {
         ArrayList<Pair> corresponding_file_paths = getMatchingRepoAndProjectFiles(repo_version);
         for (Pair p : corresponding_file_paths) {
             FileUtils.copyFile(p.repo_path, p.project_path);
-            writeToManifesto_FileAdded(p.repo_path, p.project_path.getAbsolutePath(), p.repo_path.getAbsolutePath() , String.valueOf(getLatestVersion(parseManifestFile())));
+            writeToManifesto_FileAdded(p.repo_path, p.project_path.getAbsolutePath(), p.repo_path.getAbsolutePath() , String.valueOf(repo_version), true);
         }
     }
 
@@ -115,7 +115,7 @@ public class RepoFile extends File {
         final int FILE_PATH_IN_PROJECT = 3;
         final int VERSION_IDX = 4;
         for (String[] file_entry : manifest_info) {
-            if (Integer.valueOf(file_entry[VERSION_IDX]) == version_num)
+            if (Integer.valueOf(file_entry[VERSION_IDX]) != null && Integer.valueOf(file_entry[VERSION_IDX]) == version_num)
                 corresponding_file_paths.add(new Pair(FileUtils.getFile(file_entry[FILE_PATH_IN_REPO]), FileUtils.getFile(file_entry[FILE_PATH_IN_PROJECT])));
         }
         return corresponding_file_paths;
@@ -183,7 +183,7 @@ public class RepoFile extends File {
             }
             fileReader.close();
             //for (String[] row : filesList) {
-                //System.out.println("Row = " + Arrays.toString(row));
+            //System.out.println("Row = " + Arrays.toString(row));
             //}
 
             return filesList;
@@ -201,7 +201,7 @@ public class RepoFile extends File {
             out.close();
         } catch (IOException e) {
             System.out.println("Could not write to Activity Logs");
-    }
+        }
         //exception handling left as an exercise for the reader
 
     }
@@ -231,13 +231,18 @@ public class RepoFile extends File {
         //exception handling left as an exercise for the reader
     }
 
-    private void writeToManifesto_FileAdded(File artifactFile, String original_file_path, String path_in_repo, String version) {
+    private void writeToManifesto_FileAdded(File artifactFile, String original_file_path, String path_in_repo, String version, Boolean checkout) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String[] original_path_split = original_file_path.split("\\\\");
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(getManifestFile().getAbsolutePath(), true), StandardCharsets.UTF_8)))) {
+            if (!checkout)
             out.println("Adding File...\tFile Name:\t" + original_path_split[original_path_split.length - 1] + "\tPath In Repo\t" + path_in_repo + "\tArtifact ID:\t" +
                     artifactFile.getName().substring(0, artifactFile.getName().lastIndexOf(".")) + "\tFile Location:\t" + original_file_path
                     + "\tVersion:\t" + version);
+            else
+                out.println("\tFile Name:\t" + original_path_split[original_path_split.length - 1] + "\tPath In Repo\t" + path_in_repo + "\tArtifact ID:\t" +
+                        artifactFile.getName().substring(0, artifactFile.getName().lastIndexOf(".")) + "\tFile Location:\t" + original_file_path
+                        + "\tVersion:\t" + version);
             out.close();
         } catch (IOException e) {
             System.out.println("Could not write added file");
