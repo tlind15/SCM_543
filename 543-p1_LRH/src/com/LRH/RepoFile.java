@@ -100,10 +100,12 @@ public class RepoFile extends File {
     }
 
     public void checkout(int repo_version) throws IOException {
+        writeToManifesto_CheckOut(String.valueOf(repo_version));
         ArrayList<Pair> corresponding_file_paths = getMatchingRepoAndProjectFiles(repo_version);
-        for (Pair p : corresponding_file_paths)
+        for (Pair p : corresponding_file_paths) {
             FileUtils.copyFile(p.repo_path, p.project_path);
-
+            writeToManifesto_FileAdded(p.repo_path, p.project_path.getAbsolutePath(), p.repo_path.getAbsolutePath() , String.valueOf(getLatestVersion(parseManifestFile())));
+        }
     }
 
     public ArrayList<Pair> getMatchingRepoAndProjectFiles (int version_num) {
@@ -112,9 +114,7 @@ public class RepoFile extends File {
         final int FILE_PATH_IN_REPO = 1;
         final int FILE_PATH_IN_PROJECT = 3;
         final int VERSION_IDX = 4;
-        //System.out.println(manifest_info.size());
         for (String[] file_entry : manifest_info) {
-            System.out.println("hello 2");
             if (Integer.valueOf(file_entry[VERSION_IDX]) == version_num)
                 corresponding_file_paths.add(new Pair(FileUtils.getFile(file_entry[FILE_PATH_IN_REPO]), FileUtils.getFile(file_entry[FILE_PATH_IN_PROJECT])));
         }
@@ -175,15 +175,12 @@ public class RepoFile extends File {
             StringBuffer stringBuffer = new StringBuffer();
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
                 if (line.toLowerCase().contains("adding file...")) {
                     //System.out.println("Test");
                     String[] spt = line.split("\t");
-                    System.out.println(spt.length);
                     filesList.add(new String[]{spt[2], spt[4], spt[6], spt[8], spt[10]});
                 }
             }
-            //System.out.println(filesList.size());
             fileReader.close();
             //for (String[] row : filesList) {
                 //System.out.println("Row = " + Arrays.toString(row));
@@ -208,10 +205,11 @@ public class RepoFile extends File {
     }
 
     //check-out repofoldername emptyfolder version
-    private void writeToManifesto_CheckOut(String repoFolderName, String checkOutFolder, String version) {
+    private void writeToManifesto_CheckOut(/*String repoFolderName, String checkOutFolder, */String version) {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(getManifestFile().getAbsolutePath(), true), StandardCharsets.UTF_8)))) {
-            out.println("Check-out from\tRepo Folder:\t" + repoFolderName + "\tto Folder:\t" + checkOutFolder
-                    + "\tVersion:\t" + version);
+            out.println("\n\n\nCheck-out "  /*from\tRepo Folder:\t" + repoFolderName + "\tto Folder:\t" + checkOutFolder*/
+                    + "Version: " + version + "\t" + timestamp.toString() + "\n");
         } catch (IOException e) {
             System.out.println("Could not write checked out file");
         }
