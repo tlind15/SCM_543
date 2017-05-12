@@ -1,4 +1,4 @@
-    public void checkInS(String projectPath, String repoPath, String username) throws IOException {
+  public void checkIn(String projectPath, String repoPath, String username) throws IOException {
         String originalProjectName = projectPath.substring(projectPath.lastIndexOf("\\")); //get original project name eg: D:\mypt return mypt
         createRepo(projectPath, username); //create a temp repo from users project file at projectPath
 
