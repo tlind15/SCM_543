@@ -119,13 +119,14 @@ public class Main_GUI {
                 //check-out repofoldername projectfolder version
                 String[] splited = command.split(" ");
                 String repo_location = splited[1];
-                String checkout_location = splited[2];
-                String version = splited[3];
+                //String checkout_location = splited[2];
+                String version = splited[2];
                 //System.out.println(repo_location);
                 //System.out.println(checkout_location);
                 //System.out.println(version);
                 //CALL CHECK OUT FUNCTION w/ the above params
                 RepoFile rf = new RepoFile(repo_location);
+                manifestFile = rf.getManifestFile().getAbsolutePath();
                 try {
                     rf.checkout(Integer.valueOf(version));
                     JOptionPane.showMessageDialog(null, "Checked out version " + version , "Done", JOptionPane.PLAIN_MESSAGE);
