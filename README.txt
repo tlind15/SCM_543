@@ -63,6 +63,15 @@ To view activity logs
    2. Click View, go to Activity Logs and a display will appear.
    
    3. Note: Activity logs will not appear if a repository has not yet been created. 
+   
+To checkout a version of the repo
+
+   1. From the manifest file, decide which version number you wish to check out 
+   
+   2. In the right hand side of the GUI type the following command 
+      check-out <path of repo> <version number you wish to checkout>
+      
+   3. Press Enter
 
 ###Extra Features
    User friendly GUI that prompts users for inputs, allows them to create the repo with a single button click.
