@@ -17,8 +17,6 @@
 
             if (! folderName.equalsIgnoreCase("activity")) {   //exclude activity folder eg: D:\...\activity
 
-
-
                 for (String tgtFileName :  tempRepoFileNames) {
                     if (folerModified || fileModified) {
                         folerModified = false;
@@ -31,19 +29,14 @@
                     if (!tempFolder.exists()) {
                         FileUtils.copyDirectoryToDirectory(new File(eachFolderPath),new File(tempFolder.getParent()));
                         folerModified = true;
-                        System.out.print("foldercopied");
                         continue;
                     }
-
                         //E:\repo  and D:\mypt\mypt\src\main.fool, return E:\repo\mypt\src\main.fool
                     for (String fileName : getAllFilesNames(repoPath + "\\" + eachFolderPath.substring(eachFolderPath.lastIndexOf(originalProjectName)))) {    //get each file name in current repo eg: 96969.fool
                         if (fileModified) {
                             fileModified = false;
                             continue;
                         }
-                        System.out.print(fileName);
-                        System.out.println();
-
                                 if(!tgtFileName.equalsIgnoreCase("manifest")) {
                                     if (tgtFileName == fileName){
                                         break;
@@ -52,17 +45,9 @@
                                         break;
                                 }
                                     File tempFile = new File(eachFolderPath + "\\" + tgtFileName);
-
-                                    System.out.print(eachFolderPath + "\\" + tgtFileName);
-                                    System.out.println();
-                                    System.out.print(repoPath + "\\" + eachFolderPath.substring(eachFolderPath.lastIndexOf(originalProjectName)));
-                                    System.out.println();
-
                                         if (tgtFileName != fileName && tempFile.exists() && tempFolder.isDirectory()) {
                                             FileUtils.moveToDirectory(tempFile, tempFolder, true);
                                             fileModified = true;
-                                            System.out.print("file copied"+tempFile.getPath());
-                                            System.out.println();
                                             //call manifest function
                                             break;
                                         }
