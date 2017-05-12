@@ -198,10 +198,12 @@ public class RepoFile extends File {
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new
                 OutputStreamWriter(new FileOutputStream(repo_loc + "\\" + "activity" + "\\" + "manifest.txt", true), StandardCharsets.UTF_8)))) {
             out.println("User:\t" + username + "\tCreated Repo at:\t" + repo_loc + "\t" + "Version:\t1");
+            out.close();
         } catch (IOException e) {
             System.out.println("Could not write to Activity Logs");
-        }
+    }
         //exception handling left as an exercise for the reader
+
     }
 
     //check-out repofoldername emptyfolder version
@@ -222,6 +224,7 @@ public class RepoFile extends File {
             String version = String.valueOf(this.version);
             out.println("Check-In to\tRepo Folder:\t" + repoFolderName + "\tfrom Folder:\t" + checkOutFolder
                     + "\tVersion:\t" + version);
+            out.close();
         } catch (IOException e) {
             System.out.println("Could not write checked out file");
         }
@@ -235,6 +238,7 @@ public class RepoFile extends File {
             out.println("Adding File...\tFile Name:\t" + original_path_split[original_path_split.length - 1] + "\tPath In Repo\t" + path_in_repo + "\tArtifact ID:\t" +
                     artifactFile.getName().substring(0, artifactFile.getName().lastIndexOf(".")) + "\tFile Location:\t" + original_file_path
                     + "\tVersion:\t" + version);
+            out.close();
         } catch (IOException e) {
             System.out.println("Could not write added file");
         }
