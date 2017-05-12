@@ -114,6 +114,7 @@ public class Main_GUI {
             String command = command_line.getText();
             String checkOutStr = "check-out";
             String checkInStr = "check-in";
+            RepoFile rf;
             if (command.toLowerCase().contains(checkOutStr)) {
                 //command comes in as described below
                 //check-out repofoldername projectfolder version
@@ -125,7 +126,7 @@ public class Main_GUI {
                 //System.out.println(checkout_location);
                 //System.out.println(version);
                 //CALL CHECK OUT FUNCTION w/ the above params
-                RepoFile rf = new RepoFile(repo_location);
+                rf = new RepoFile(repo_location);
                 manifestFile = rf.getManifestFile().getAbsolutePath();
                 try {
                     rf.checkout(Integer.valueOf(version));
@@ -136,13 +137,22 @@ public class Main_GUI {
                 }
             } else if (command.toLowerCase().contains(checkInStr)) {
                 //command comes in as described below
-                //check-in repofoldername checkoutfolder
+                //check-in repofoldername projectfolder
                 String[] splited = command.split(" ");
                 String repo_location = splited[1];
                 String checkout_location = splited[2];
-                System.out.println(repo_location);
-                System.out.println(checkout_location);
+                //System.out.println(repo_location);
+                //System.out.println(checkout_location);
                 //CALL CHECK IN COMMAND w/ above params
+                rf = new RepoFile(repo_location);
+                try {
+                    rf.checkIn(repo_location, checkout_location);
+                    JOptionPane.showMessageDialog(null, "Check in complete" , "Done", JOptionPane.PLAIN_MESSAGE);
+
+                } catch (IOException x) {
+                    x.printStackTrace();
+                }
+
             }
         }
     }
