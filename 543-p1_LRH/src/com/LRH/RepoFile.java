@@ -1,22 +1,22 @@
 package com.LRH;
 
-import org.apache.commons.io.FileUtils;
-import java.io.File;
-import java.io.InputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.BufferedWriter;
-import java.io.PrintWriter;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.sql.Timestamp;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.List;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
-import com.LRH.Pair;
+        import org.apache.commons.io.FileUtils;
+        import java.io.File;
+        import java.io.InputStream;
+        import java.io.FileInputStream;
+        import java.io.IOException;
+        import java.io.BufferedWriter;
+        import java.io.PrintWriter;
+        import java.io.FileOutputStream;
+        import java.io.OutputStreamWriter;
+        import java.sql.Timestamp;
+        import java.nio.charset.StandardCharsets;
+        import java.util.HashMap;
+        import java.util.List;
+        import java.io.BufferedReader;
+        import java.io.FileReader;
+        import java.util.ArrayList;
+        import com.LRH.Pair;
 
 
 public class RepoFile extends File {
@@ -35,8 +35,8 @@ public class RepoFile extends File {
         //File file_dest = FileUtils.getFile(dest + "\\" + this.getName()); //creates file path for new destination from String
         File file_original = FileUtils.getFile(originalPath);
         File repo_directory = FileUtils.getFile(this + "\\" + file_original.getName());
-        FileUtils.copyDirectory(file_original, repo_directory);
 
+        FileUtils.copyDirectory(file_original, repo_directory);
         return repo_directory;
     }
 
@@ -154,6 +154,69 @@ public class RepoFile extends File {
         }
         return checkSum;
     }
+
+    public void checkIn (String repo_root_path, String project_root_path)  throws IOException {
+        List<File> project_files = (List<File>) FileUtils.listFiles(FileUtils.getFile(project_root_path), null, true);
+        String original_name = project_root_path.substring(project_root_path.lastIndexOf("\\") + 1);
+        ArrayList<Pair> proj_and_corresponding_repo_paths = new ArrayList<>();
+        String version = String.valueOf(String.valueOf(getLatestVersion(parseManifestFile()) + 1));
+
+        for (File f : project_files) {
+            String name = f.getName(); // name = "h.txt"
+            String id = newFileCodeName(f);
+
+            //find where h.txt would belong in the repo
+            String [] temp_array = f.getAbsolutePath().split("\\\\"); //[D:, mtptr, h.txt]
+            temp_array[temp_array.length - 1] = id; // [D:, myptr, junk1, junk2, xxxx.txt]
+            int index= 0;
+            for (int i=0; i < temp_array.length; i++) {
+                if (temp_array[i].equals(original_name))
+                    index = i;
+            }
+
+            String path_of_f_in_repo = "";
+
+            path_of_f_in_repo += repo_root_path; //added E:/repo
+
+
+            for (int j=index; j < temp_array.length - 1; j++) {
+                path_of_f_in_repo += ("\\" + temp_array[j]);
+
+            }
+            //1st time --> E:/repo/myptr --> j = 1
+            //2nd time --> E:/repo/myptr/junk1 j = 2
+            //3rd time -->  E:/repo/myptr/junk1/junk2 j =3
+
+            path_of_f_in_repo += "\\" + name; //E:/repo/myptr/junk1/junk2/h.txt
+            path_of_f_in_repo +=  "\\" + temp_array[temp_array.length - 1]; //E:/repo/myptr/junk1/junk2/h.txt/xxxx.txt
+
+            FileUtils.copyFile(f, FileUtils.getFile(path_of_f_in_repo.replace("\\\\", "\\")));
+            proj_and_corresponding_repo_paths.add(new Pair(FileUtils.getFile(path_of_f_in_repo), f));
+        }
+        writeToManifesto_CheckIn(repo_root_path, project_root_path, version);
+        for (Pair p : proj_and_corresponding_repo_paths)
+            writeToManifesto_FileAdded(p.repo_path, p.project_path.getAbsolutePath(), p.repo_path.getAbsolutePath(), version, false);
+    }
+
+    public ArrayList<String> getAllFolderPath(String tgtDirectory) throws IOException{
+        File repoDir = new File(tgtDirectory);
+        List<File> allFiles =  (List<File>) FileUtils.listFiles(repoDir, null, true);
+        ArrayList<String> filePath = new ArrayList<String>();
+        for (File eachFile : allFiles) {
+            filePath.add(eachFile.getParent());
+        }
+        return filePath;
+    }
+
+    public ArrayList<String> getAllFilesNames(String tgtDirectory) throws IOException{
+        File repoDir = new File(tgtDirectory);
+        List<File> allFiles =  (List<File>) FileUtils.listFiles(repoDir, null, true);
+        ArrayList<String> fileNames = new ArrayList<String>();
+        for (File eachFile : allFiles) {
+            fileNames.add(eachFile.getName());
+        }
+        return fileNames;
+    }
     //***end Yushen***
 
 
@@ -219,10 +282,10 @@ public class RepoFile extends File {
     }
 
     //check-in repofoldername checkoutfolder
-    private void writeToManifesto_CheckIn(String repoFolderName, String checkOutFolder) {
+    private void writeToManifesto_CheckIn(String repoFolderName, String checkOutFolder, String version) {
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(getManifestFile().getAbsolutePath(), true), StandardCharsets.UTF_8)))) {
-            String version = String.valueOf(this.version);
-            out.println("Check-In to\tRepo Folder:\t" + repoFolderName + "\tfrom Folder:\t" + checkOutFolder
+
+            out.println("\n\nCheck-In to\tRepo Folder:\t" + repoFolderName + "\tfrom Folder:\t" + checkOutFolder
                     + "\tVersion:\t" + version);
             out.close();
         } catch (IOException e) {
@@ -236,9 +299,9 @@ public class RepoFile extends File {
         String[] original_path_split = original_file_path.split("\\\\");
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(getManifestFile().getAbsolutePath(), true), StandardCharsets.UTF_8)))) {
             if (!checkout)
-            out.println("Adding File...\tFile Name:\t" + original_path_split[original_path_split.length - 1] + "\tPath In Repo\t" + path_in_repo + "\tArtifact ID:\t" +
-                    artifactFile.getName().substring(0, artifactFile.getName().lastIndexOf(".")) + "\tFile Location:\t" + original_file_path
-                    + "\tVersion:\t" + version);
+                out.println("Adding File...\tFile Name:\t" + original_path_split[original_path_split.length - 1] + "\tPath In Repo\t" + path_in_repo + "\tArtifact ID:\t" +
+                        artifactFile.getName().substring(0, artifactFile.getName().lastIndexOf(".")) + "\tFile Location:\t" + original_file_path
+                        + "\tVersion:\t" + version);
             else
                 out.println("\tFile Name:\t" + original_path_split[original_path_split.length - 1] + "\tPath In Repo\t" + path_in_repo + "\tArtifact ID:\t" +
                         artifactFile.getName().substring(0, artifactFile.getName().lastIndexOf(".")) + "\tFile Location:\t" + original_file_path

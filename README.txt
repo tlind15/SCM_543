@@ -68,9 +68,18 @@ To checkout a version of the repo
 
    1. From the manifest file, decide which version number you wish to check out 
    
-   2. In the right hand side of the GUI type the following command 
-      check-out <path of repo> <version number you wish to checkout>
+   2. In the right hand side of the GUI type the following command: 
+            check-out <path of repo> <version number you wish to checkout>
       
+   3. Press Enter
+   
+To check in a new version to the repo
+   
+   1. Run GUI
+   
+   2. In the right hnad side of the GUI type the following command:
+         check-in <path to root of repository> <path to root of the project folder>
+         
    3. Press Enter
 
 ###Extra Features
