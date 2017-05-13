@@ -11,6 +11,7 @@ We are **Team LRH** and this project is a source code management system made fro
 
 ###Project Progress
    - Project Part 1: 'Create Repo' Completed 2-26-17
+   - Project Part 2: 'Check in and Check out' Completed 5-12-17 
 
 ###External Requirements
    -JRE 8 amd JDK
@@ -27,14 +28,14 @@ We are **Team LRH** and this project is a source code management system made fro
    3. Run commands
 
       cd PATH_TO_EXTRACTED_FOLDER/543-p1_LRH/543-p1_LRH/src/com/LRH
-      javac -classpath PATH_TO_EXTRACTED_FOLDER/543-p1_LRH/commons-io-2.5.jar Main_GUI.java Main.java RepoFile.java
+      javac -classpath PATH_TO_EXTRACTED_FOLDER/543-p1_LRH/commons-io-2.5.jar Main_GUI.java Main.java RepoFile.java Pair.java
       cd PATH_TO_EXTRACTED_FOLDER/543-p1_LRH/543-p1_LRH/src
       java com.LRH.Main
       
         
 ####Using an IDE
 
-   1. Add Main_GUI.java, Repo.java, Main.java to your project
+   1. Add Main_GUI.java, Repo.java, Main.java, Pair.java to your project
     
    2. Change the package name of the added files to be the same as your package 
 
@@ -85,6 +86,7 @@ To check in a new version to the repo
 ###Extra Features
    User friendly GUI that prompts users for inputs, allows them to create the repo with a single button click.
    GUI also has a tab for showing the manifest entries
+   Used version numbers to differentiate between checked in versions instead of timestamps
 
 ###Known Bugs
   -The user must supply a valid location to copy from.
