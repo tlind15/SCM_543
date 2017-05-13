@@ -36,12 +36,7 @@ public class RepoFile extends File {
         File file_original = FileUtils.getFile(originalPath);
         File repo_directory = FileUtils.getFile(this + "\\" + file_original.getName());
 
-        if (file_original.isDirectory() && repo_directory.isDirectory())
-            FileUtils.copyDirectoryToDirectory(file_original, repo_directory); //changed to copy file instead of directory!!!
-        else if (file_original.isFile() && repo_directory.isDirectory())
-            FileUtils.copyFileToDirectory(file_original, repo_directory); //changed to copy file instead of directory!!!
-        else if (file_original.isFile() && repo_directory.isFile())
-            FileUtils.copyFile(file_original, repo_directory);
+        FileUtils.copyDirectory(file_original, repo_directory);
         return repo_directory;
     }
 
@@ -198,7 +193,7 @@ public class RepoFile extends File {
             FileUtils.copyFile(f, FileUtils.getFile(path_of_f_in_repo.replace("\\\\", "\\")));
             proj_and_corresponding_repo_paths.add(new Pair(FileUtils.getFile(path_of_f_in_repo), f));
         }
-        writeToManifesto_CheckIn(repo_root_path, project_root_path);
+        writeToManifesto_CheckIn(repo_root_path, project_root_path, version);
         for (Pair p : proj_and_corresponding_repo_paths)
             writeToManifesto_FileAdded(p.repo_path, p.project_path.getAbsolutePath(), p.repo_path.getAbsolutePath(), version, false);
     }
@@ -287,9 +282,9 @@ public class RepoFile extends File {
     }
 
     //check-in repofoldername checkoutfolder
-    private void writeToManifesto_CheckIn(String repoFolderName, String checkOutFolder) {
+    private void writeToManifesto_CheckIn(String repoFolderName, String checkOutFolder, String version) {
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(getManifestFile().getAbsolutePath(), true), StandardCharsets.UTF_8)))) {
-            String version = String.valueOf(this.version);
+
             out.println("\n\nCheck-In to\tRepo Folder:\t" + repoFolderName + "\tfrom Folder:\t" + checkOutFolder
                     + "\tVersion:\t" + version);
             out.close();
